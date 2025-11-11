@@ -1,0 +1,1258 @@
+/* Import font chữ Comic Neue cho phong cách Cartoon */
+
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Comic Neue', cursive, 'Poppins', sans-serif;
+}
+
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+}
+
+
+/* ------------------ HIỆU ỨNG CON TRỎ MỚI ------------------ */
+
+
+/* Con trỏ mặc định (di chuyển) */
+
+body,
+* {
+    /* Đổi 'default.png' thành hình ảnh con trỏ mặc định 32x32px của bạn */
+    /* Nếu bạn không có, hãy xóa dòng này hoặc sử dụng 'auto' */
+    cursor: url('images/cursor_default.png'), auto;
+    transition: all 0.1s ease;
+    /* Thêm transition cho mọi thứ để có chuyển động mượt mà hơn */
+}
+
+
+/* Con trỏ khi trỏ vào nút bấm */
+
+.wrapper i,
+.controls .play-pause,
+.progress-area,
+.music-list ul li,
+.genre-list ul li,
+.top-bar i,
+.footer a {
+    /* Đổi 'pointer.png' thành hình ảnh con trỏ khi nhấp 32x32px của bạn */
+    /* Hãy sử dụng hình ảnh ngón tay trỏ hoặc găng tay hoạt hình */
+    cursor: url('images/cursor_pointer.png'), pointer !important;
+}
+
+:root {
+    /* Màu sắc tươi sáng hơn, rực rỡ hơn */
+    --pink: #ff6e87;
+    --violet: #8c7bff;
+    --lightblack: #3a3a50;
+    --white: #ffffff;
+    --darkwhite: #f5f5f5;
+    --shadow-color: rgba(0, 0, 0, 0.25);
+    /* Bóng đổ cho chữ */
+}
+
+
+/* ------------------ KEYFRAMES ANIMATIONS ------------------ */
+
+
+/* Hiệu ứng Glow cho ảnh bìa (giữ nguyên) */
+
+@keyframes glowing {
+    0% {
+        box-shadow: 0 0 10px rgba(140, 123, 255, 0.7), 0 0 20px rgba(255, 110, 135, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 110, 135, 0.9), 0 0 30px rgba(140, 123, 255, 0.7);
+    }
+    100% {
+        box-shadow: 0 0 10px rgba(140, 123, 255, 0.7), 0 0 20px rgba(255, 110, 135, 0.5);
+    }
+}
+
+
+/* Hiệu ứng Nảy cho các nút điều khiển */
+
+@keyframes bounce {
+    0%,
+    100% {
+        transform: translateY(0) scale(1.05);
+    }
+    50% {
+        transform: translateY(-5px) scale(1.1);
+    }
+}
+
+
+/* Hiệu ứng Nổi bật nhẹ cho list item khi hover */
+
+@keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.02);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+}
+
+
+/* ------------------ GLOBAL STYLES ------------------ */
+
+
+/* File: style.css (Đoạn đầu file, trong thẻ body) */
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    /* Gradient nền rực rỡ hơn */
+    background: linear-gradient(135deg, #a7a7ff 0%, #ffc0c0 100%);
+    padding: 0 15px;
+}
+
+
+/* Style cho container tuyết */
+
+.snow-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+
+/* Style cho hạt tuyết (giữ nguyên) */
+
+.snowflake {
+    position: fixed;
+    top: -10px;
+    color: #fff;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 1), 0 0 16px rgba(200, 220, 255, 0.8), 0 0 24px rgba(150, 200, 255, 0.6);
+    pointer-events: none;
+    user-select: none;
+    font-weight: bold;
+}
+
+.snow-container.enabled .snowflake {
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) translateX(100px);
+        opacity: 0;
+    }
+}
+
+.snow-container.enabled .snowflake {
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) translateX(100px);
+        opacity: 0;
+    }
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.9;
+    }
+    100% {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}
+
+
+/* File: style.css */
+
+.wrapper {
+    width: 380px;
+    max-width: 100%;
+    padding: 25px 30px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 20px;
+    background: var(--white);
+    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    object-fit: cover;
+}
+
+
+/* ------------------ TOP BAR ------------------ */
+
+.top-bar,
+.progress-area .song-timer,
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+/* --- Custom Avatar --- */
+
+.avatar-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    /* ÁP DỤNG ANIMATION VĨNH VIỄN */
+    animation: avatar-active-glow 1.5s ease-in-out infinite alternate;
+    transition: transform 0.2s ease, box-shadow 0.3s ease, filter 0.3s ease, border-radius 0.3s ease;
+    margin-left: -5px;
+    cursor: pointer;
+}
+
+.avatar-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-icon:hover {
+    transform: scale(1.08);
+}
+
+.avatar-icon.active {
+    /* Giữ lại hiệu ứng nảy */
+    animation: avatar-click-bounce 0.3s ease-out;
+    border-radius: 30%;
+    filter: grayscale(80%) drop-shadow(0 0 5px var(--pink));
+}
+
+
+/* --- Custom Time Display (HIỂN THỊ GIỜ VIỆT NAM) --- */
+
+.time-display {
+    font-size: 14px;
+    font-weight: 700;
+    /* TĂNG ĐỘ ĐẬM */
+    /* ĐÃ SỬA: Đổi font sang Comic Neue (Cartoon) */
+    font-family: 'Comic Neue', cursive, 'Poppins', sans-serif;
+    color: #ffffff;
+    /* ĐÃ SỬA: Đổi màu chữ sang trắng cho dễ nhìn trên nền tối */
+    padding: 5px 10px;
+    border-radius: 8px;
+    /* ĐÃ SỬA: LÀM KHUNG TỐI ĐI */
+    background: rgba(0, 0, 0, 0.6);
+    /* Nền tối trong suốt */
+    backdrop-filter: blur(2px);
+    /* ĐÃ SỬA: THÊM HIỆU ỨNG GLOW LIÊN TỤC */
+    animation: pulseShadow 3s ease-in-out infinite alternate;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    /* Tăng bóng đổ nhẹ */
+    min-width: 80px;
+    text-align: center;
+    /* Thêm viền trắng nhẹ để nổi bật */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+/* --- TELEGRAM LINK STYLE --- */
+
+.top-bar .icon-link {
+    text-decoration: none;
+    line-height: 1;
+    /* Cần thiết để căn giữa icon */
+}
+
+.top-bar .icon-link i {
+    font-size: 32px;
+    user-select: none;
+    /* Áp dụng Gradient 2 màu cho icon Telegram */
+    background: linear-gradient(45deg, var(--violet) 0%, var(--pink) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.top-bar .icon-link i:hover {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 3px var(--violet));
+}
+
+
+/* Điều chỉnh lại top-bar để căn giữa */
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+/* ------------------ IMAGE AREA & GLOW ------------------ */
+
+.img-area {
+    width: 100%;
+    height: 256px;
+    overflow: hidden;
+    margin-top: 25px;
+    border-radius: 15px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.3s ease-out;
+}
+
+.img-area.glowing {
+    animation: glowing 2s ease-in-out infinite alternate;
+}
+
+.img-area img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* TÌM VÀ THAY THẾ TOÀN BỘ ĐOẠN CSS CHO .img-area */
+
+.wrapper .img-area {
+    /* 1. XÓA BỎ bo tròn (50%) */
+    border-radius: 10px;
+    /* Bo góc nhẹ cho hình chữ nhật */
+    /* 2. KÉO DÀI RA VỪA KHUNG CARD */
+    height: 200px;
+    /* Đặt chiều cao mong muốn (có thể thay đổi) */
+    width: 100%;
+    /* Chiếm toàn bộ chiều rộng của .wrapper */
+    /* 3. Đảm bảo ảnh không tràn ra ngoài */
+    overflow: hidden;
+    padding: 0;
+    /* Xóa padding không cần thiết */
+    margin-top: 25px;
+    /* Giữ nguyên hiệu ứng Box Shadow (tùy chọn) */
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+
+/* TÌM VÀ THAY THẾ TOÀN BỘ ĐOẠN CSS CHO .img-area img */
+
+.wrapper .img-area img {
+    width: 100%;
+    height: 100%;
+    /* QUAN TRỌNG: Đảm bảo ảnh lấp đầy khung hình chữ nhật và giữ tỷ lệ */
+    object-fit: cover;
+    /* Xóa bỏ bo tròn nếu có */
+    border-radius: 0;
+    transition: all 0.2s ease-out;
+}
+
+
+/* ------------------ SONG DETAILS (CHỮ) ------------------ */
+
+.song-details {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.song-details .name {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--lightblack);
+    text-shadow: 2px 2px 3px var(--shadow-color);
+}
+
+.song-details .artist {
+    font-size: 18px;
+    opacity: 0.9;
+    line-height: 35px;
+    color: var(--lightblack);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+
+/* ------------------ PROGRESS BAR ------------------ */
+
+
+/* =================================================== */
+
+
+/* ANIMATIONS                      */
+
+
+/* =================================================== */
+
+
+/* Hiệu ứng Nảy khi click (cho các nút) */
+
+@keyframes clickBounce {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.9);
+    }
+    /* Hơi co lại khi click */
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+/* Hiệu ứng Nhấn vào và Sáng lên (cho các mục list) */
+
+@keyframes listItemClick {
+    0% {
+        transform: translateY(0) scale(1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    50% {
+        transform: translateY(2px) scale(0.98);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    /* Hơi lún xuống */
+    100% {
+        transform: translateY(0) scale(1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+}
+
+
+/* Hiệu ứng Phát sáng liên tục (cho nút và progress bar) */
+
+@keyframes glowingEffect {
+    0% {
+        box-shadow: 0 0 5px rgba(255, 110, 135, 0.5), 0 0 10px rgba(140, 123, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 8px rgba(255, 110, 135, 0.8), 0 0 15px rgba(140, 123, 255, 0.5);
+    }
+    100% {
+        box-shadow: 0 0 5px rgba(255, 110, 135, 0.5), 0 0 10px rgba(140, 123, 255, 0.3);
+    }
+}
+
+
+/* Hiệu ứng Phát sáng cho nút PLAY/PAUSE */
+
+@keyframes playPauseGlowing {
+    0% {
+        box-shadow: 0px 5px 10px rgba(255, 110, 135, 0.4);
+    }
+    50% {
+        box-shadow: 0px 8px 15px rgba(140, 123, 255, 0.8);
+    }
+    100% {
+        box-shadow: 0px 5px 10px rgba(255, 110, 135, 0.4);
+    }
+}
+
+
+/* =================================================== */
+
+
+/* ANIMATIONS (CẬP NHẬT)                      */
+
+
+/* =================================================== */
+
+
+/* Hiệu ứng Nảy khi click (giữ nguyên, nhưng tinh chỉnh nhanh hơn) */
+
+@keyframes clickBounce {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.95);
+    }
+    /* Co lại ít hơn */
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+/* Hiệu ứng Nhấn vào và Sáng lên cho List Item (giữ nguyên) */
+
+@keyframes listItemClick {
+    0% {
+        transform: translateY(0) scale(1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    50% {
+        transform: translateY(2px) scale(0.98);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    100% {
+        transform: translateY(0) scale(1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+}
+
+
+/* Hiệu ứng Phát sáng/Nhấp nháy tinh tế cho các thành phần */
+
+@keyframes pulseShadow {
+    0% {
+        box-shadow: 0 0 7px rgba(255, 110, 135, 0.4), 0 0 12px rgba(140, 123, 255, 0.3);
+    }
+    /* Sáng hơn một chút */
+    50% {
+        box-shadow: 0 0 10px rgba(255, 110, 135, 0.6), 0 0 18px rgba(140, 123, 255, 0.45);
+    }
+    /* Cực đại sáng hơn */
+    100% {
+        box-shadow: 0 0 7px rgba(255, 110, 135, 0.4), 0 0 12px rgba(140, 123, 255, 0.3);
+    }
+}
+
+
+/* =================================================== */
+
+
+/* GLOBAL STYLES & BACKGROUND */
+
+
+/* =================================================== */
+
+body {
+    /* ... (giữ nguyên các quy tắc cũ) ... */
+    /* Điều chỉnh gradient nền nếu muốn mềm mại hơn */
+    background: linear-gradient(135deg, #c7c7ff 0%, #ffdfdf 100%);
+    /* Màu nhẹ nhàng hơn */
+}
+
+
+/* WRAPPER (thêm bóng đổ tinh tế hơn) */
+
+.wrapper {
+    /* ... (giữ nguyên các quy tắc cũ) ... */
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
+    /* Bóng đổ nhẹ hơn */
+}
+
+
+/* ------------------ PROGRESS BAR (CẬP NHẬT) ------------------ */
+
+.progress-area {
+    height: 12px;
+    /* TĂNG CHIỀU CAO TỪ 8px LÊN 12px */
+    width: 100%;
+    border-radius: 50px;
+    background: #e0e0e0;
+    /* Hiệu ứng sáng tinh tế */
+    animation: pulseShadow 3s ease-in-out infinite alternate;
+    /* Thêm bóng đổ nhẹ cho thanh để trông có chiều sâu */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.progress-area .progress-bar {
+    height: inherit;
+    /* ... (giữ nguyên các quy tắc cũ) ... */
+}
+
+
+/* ------------------ PROGRESS BAR (ĐÃ SỬA LỖI VỊ TRÍ VÀ TĂNG KÍCH THƯỚC) ------------------ */
+
+.wrapper .progress-area {
+    height: 12px;
+    /* TĂNG CHIỀU CAO */
+    width: 100%;
+    border-radius: 50px;
+    background: #e0e0e0;
+    /* Hiệu ứng sáng tinh tế */
+    animation: pulseShadow 3s ease-in-out infinite alternate;
+    /* Thêm bóng đổ nhẹ cho thanh để trông có chiều sâu */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.progress-area .progress-bar {
+    height: inherit;
+    width: 0%;
+    position: relative;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--violet) 0%, var(--pink) 100%);
+    transition: width 0.1s linear;
+}
+
+.progress-bar::before {
+    content: "";
+    position: absolute;
+    height: 20px;
+    /* KÍCH THƯỚC NÚT */
+    width: 20px;
+    border-radius: 50%;
+    top: 50%;
+    /* SỬA LỖI VỊ TRÍ: -10px cho nút 20px */
+    right: -10px;
+    z-index: 2;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(-50%);
+    background: inherit;
+    /* Hiệu ứng sáng tinh tế cho dấu chấm */
+    animation: pulseShadow 3s ease-in-out infinite alternate;
+    box-shadow: 0 0 8px rgba(255, 110, 135, 0.7);
+}
+
+
+/* Loại bỏ hover cũ không cần thiết cho progress-bar::before */
+
+.progress-area:hover .progress-bar::before {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+/* Thời gian bài hát */
+
+.progress-area .song-timer {
+    margin-top: 5px;
+}
+
+.song-timer span {
+    font-size: 14px;
+    color: var(--lightblack);
+    font-weight: 700;
+    /* ĐÃ SỬA: Áp dụng font Comic Neue */
+    font-family: 'Comic Neue', cursive, 'Poppins', sans-serif;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+
+/* ------------------ CONTROLS (NÚT ĐIỀU KHIỂN - CẬP NHẬT) ------------------ */
+
+.controls {
+    margin: 40px 0 15px 0;
+    /* Đảm bảo các nút cách đều nhau */
+    justify-content: space-evenly;
+}
+
+.controls i {
+    font-size: 32px;
+    user-select: none;
+    background: linear-gradient(var(--pink) 0%, var(--violet) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: transform 0.2s ease, filter 0.2s ease;
+    /* Tạo hình dáng nút */
+    width: 50px;
+    /* Chiều rộng nút */
+    height: 50px;
+    /* Chiều cao nút */
+    display: flex;
+    /* Căn giữa icon */
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    /* Hình tròn */
+    background-color: rgba(255, 255, 255, 0.7);
+    /* Nền trắng trong suốt nhẹ */
+    backdrop-filter: blur(5px);
+    /* Hiệu ứng mờ */
+    /* Bóng đổ và hiệu ứng sáng cho nút */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1), /* Bóng đổ cơ bản */
+    inset 0 -2px 5px rgba(0, 0, 0, 0.05);
+    /* Bóng đổ tạo chiều sâu */
+    animation: pulseShadow 3s ease-in-out infinite alternate;
+    /* Hiệu ứng sáng tinh tế */
+}
+
+
+/* Kích thước riêng cho prev/next */
+
+.controls i:nth-child(2),
+.controls i:nth-child(4) {
+    font-size: 40px;
+    /* Kích thước icon lớn hơn một chút */
+    width: 60px;
+    /* Kích thước nút lớn hơn */
+    height: 60px;
+}
+
+
+/* Hiệu ứng khi hover */
+
+.controls i:not(.play):hover {
+    transform: translateY(-3px) scale(1.05);
+    /* Nổi lên và to hơn một chút */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2), inset 0 -2px 5px rgba(0, 0, 0, 0.05), 0 0 15px rgba(140, 123, 255, 0.5);
+    /* Sáng mạnh hơn khi hover */
+}
+
+
+/* Animation click cho tất cả các nút điều khiển */
+
+.controls i:not(.play):active {
+    animation: clickBounce 0.15s ease forwards;
+    /* Nhanh hơn */
+    transform: translateY(1px) scale(0.98);
+    /* Hơi lún xuống */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), /* Bóng đổ nhỏ hơn khi nhấn */
+    inset 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.controls .play-pause {
+    height: 70px;
+    /* Kích thước lớn hơn cho nút chính */
+    width: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(var(--white) 0%, var(--darkwhite) 100%);
+    /* Nền trắng */
+    /* Bóng đổ và hiệu ứng sáng cho nút PLAY/PAUSE */
+    box-shadow: 0 5px 15px rgba(255, 110, 135, 0.3), /* Bóng đổ chính */
+    inset 0 -3px 8px rgba(0, 0, 0, 0.1);
+    /* Bóng đổ tạo chiều sâu */
+    animation: pulseShadow 2.5s ease-in-out infinite alternate;
+    /* Hiệu ứng sáng riêng, nhanh hơn một chút */
+    transition: all 0.2s ease-in-out;
+}
+
+.play-pause::before {
+    position: absolute;
+    content: "";
+    height: 60px;
+    /* Kích thước inner ring */
+    width: 60px;
+    border-radius: inherit;
+    background: linear-gradient(var(--pink) 0%, var(--violet) 100%);
+    /* Màu gradient */
+    opacity: 0.8;
+    /* Giảm độ đậm màu */
+    filter: blur(2px);
+    /* Làm mờ nhẹ */
+    z-index: 1;
+    /* Đảm bảo nằm dưới icon */
+}
+
+.play-pause i {
+    height: 60px;
+    width: 60px;
+    line-height: 60px;
+    text-align: center;
+    background: inherit;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: absolute;
+    font-size: 40px;
+    /* Kích thước icon play/pause */
+    z-index: 2;
+    /* Đảm bảo icon nằm trên */
+}
+
+
+/* Hiệu ứng khi hover nút play/pause */
+
+.play-pause:hover {
+    transform: scale(1.05);
+    /* To hơn một chút khi hover */
+    box-shadow: 0 8px 20px rgba(140, 123, 255, 0.4), inset 0 -3px 8px rgba(0, 0, 0, 0.1), 0 0 20px rgba(255, 110, 135, 0.7);
+    /* Sáng mạnh hơn khi hover */
+}
+
+
+/* Animation click cho nút play/pause */
+
+.play-pause:active {
+    animation: clickBounce 0.15s ease forwards, pulseShadow 2.5s ease-in-out infinite alternate;
+    transform: scale(0.98);
+    /* Hơi co lại khi click */
+    box-shadow: 0 2px 8px rgba(255, 110, 135, 0.2), /* Bóng đổ nhỏ hơn khi nhấn */
+    inset 0 1px 5px rgba(0, 0, 0, 0.15);
+}
+
+
+/* ... (Phần còn lại của style.css giữ nguyên) ... */
+
+
+/* --- TELEGRAM ICON (CẬP NHẬT) --- */
+
+.telegram-icon {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    /* Kích thước lớn hơn một chút */
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--violet) 0%, var(--pink) 100%);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15), inset 0 -2px 5px rgba(0, 0, 0, 0.05);
+    /* Bóng đổ tinh tế */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    animation: pulseShadow 3s ease-in-out infinite alternate;
+    /* Hiệu ứng sáng */
+}
+
+.telegram-icon i {
+    font-size: 26px;
+    /* Kích thước icon lớn hơn */
+    line-height: 1;
+    background: linear-gradient(45deg, var(--white) 30%, #a2e8ff 80%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: transform 0.2s ease;
+}
+
+.telegram-icon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(140, 123, 255, 0.3), inset 0 -2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.telegram-icon:active {
+    animation: clickBounce 0.15s ease forwards, pulseShadow 3s ease-in-out infinite alternate;
+    transform: scale(0.98);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), inset 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+
+/* --- CONTROLS (NÚT) --- */
+
+.controls i {
+    /* ... (giữ nguyên các quy tắc cũ) ... */
+    /* Áp dụng hiệu ứng sáng liên tục cho các icon nút */
+    animation: glowingEffect 3s ease-in-out infinite alternate;
+}
+
+
+/* Thêm animation click cho tất cả các nút điều khiển */
+
+.controls i:not(.play):active {
+    animation: clickBounce 0.2s ease forwards;
+}
+
+.controls .play-pause {
+    /* ... (giữ nguyên các quy tắc cũ) ... */
+    /* Hiệu ứng sáng liên tục cho nút play/pause */
+    animation: playPauseGlowing 2s ease-in-out infinite alternate;
+}
+
+
+/* Thêm animation click cho nút play/pause */
+
+.play-pause:active {
+    animation: clickBounce 0.2s ease forwards, playPauseGlowing 2s ease-in-out infinite alternate;
+    /* Kết hợp click và sáng */
+    box-shadow: 0px 3px 8px rgba(140, 123, 255, 0.5);
+    /* Giảm bóng đổ khi nhấn */
+}
+
+
+/* Loại bỏ hover cũ không cần thiết */
+
+.play-pause:hover,
+.play-pause:active {
+    /* animation: bounce 0.3s ease-out; */
+    /* Bỏ animation cũ */
+    /* box-shadow: 0px 8px 15px rgba(140, 123, 255, 0.5); */
+    /* Bỏ bóng đổ cũ */
+}
+
+
+/* ------------------ LIST ITEMS (CẬP NHẬT CHO HIỆU ỨNG ĐỒNG BỘ) ------------------ */
+
+.music-list ul li,
+.genre-list ul li {
+    list-style: none;
+    display: flex;
+    cursor: pointer;
+    padding: 10px 0;
+    border-bottom: 1px solid #e5e5e5;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    /* Transition mượt hơn */
+    border-radius: 10px;
+    /* Bo góc mềm mại hơn */
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    /* Tăng khoảng cách giữa các mục */
+    /* Bóng đổ nhẹ cho hiệu ứng nổi */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    border: 1px solid transparent;
+    /* Khung mặc định trong suốt */
+}
+
+.music-list ul li:last-child,
+.genre-list ul li:last-child {
+    border-bottom: 0;
+}
+
+
+/* HIỆU ỨNG HOVER MỚI: VIỀN SÁNG VÀ HƠI NẨY LÊN */
+
+.music-list ul li:hover:not(.playing),
+.genre-list ul li:hover:not(.playing) {
+    background: var(--darkwhite);
+    /* Nền hơi tối */
+    transform: translateY(-2px) scale(1.01);
+    /* Hơi nảy lên */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    /* VIỀN GRADIENT ĐỒNG BỘ VỚI TRANG */
+    border: 1px solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(to right, var(--violet), var(--pink));
+}
+
+
+/* HIỆU ỨNG CLICK (ACTIVE): LÚN XUỐNG VÀ CÓ MÀU ĐỒNG BỘ */
+
+.music-list ul li:active,
+.genre-list ul li:active {
+    animation: clickBounce 0.15s ease forwards;
+    transform: translateY(1px) scale(0.99);
+    /* Lún xuống */
+    background: rgba(140, 123, 255, 0.1);
+    /* Nền tím nhạt */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-color: var(--violet);
+    /* Viền màu tím */
+}
+
+
+/* Bài hát đang phát (PLAYING): MÀU GRADIENT CHÍNH */
+
+.music-list ul li.playing {
+    color: var(--white);
+    pointer-events: none;
+    background: linear-gradient(90deg, var(--violet) 0%, var(--pink) 100%);
+    box-shadow: 0 4px 15px rgba(255, 110, 135, 0.4);
+    border-color: transparent;
+}
+
+
+/* ... (Giữ nguyên các quy tắc con khác) ... */
+
+
+/* --- TELEGRAM ICON (Giữ hiệu ứng sáng 2 màu) --- */
+
+.telegram-icon {
+    /* ... (giữ nguyên quy tắc cũ) ... */
+    animation: glowingEffect 3s ease-in-out infinite alternate;
+    /* Áp dụng hiệu ứng sáng */
+}
+
+.telegram-icon:active {
+    animation: clickBounce 0.2s ease forwards, glowingEffect 3s ease-in-out infinite alternate;
+}
+
+
+/* ------------------ CONTROLS (NÚT) ------------------ */
+
+.controls {
+    margin: 40px 0 15px 0;
+}
+
+.controls i {
+    font-size: 32px;
+    user-select: none;
+    background: linear-gradient(var(--pink) 0%, var(--violet) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.controls i:not(.play):hover {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 3px var(--violet));
+}
+
+.controls i:nth-child(2),
+.controls i:nth-child(4) {
+    font-size: 50px;
+}
+
+.controls .play-pause {
+    height: 60px;
+    width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(var(--white) 0%, var(--darkwhite) 100%);
+    box-shadow: 0px 5px 10px rgba(255, 110, 135, 0.4);
+    transition: all 0.2s ease-in-out;
+}
+
+.play-pause:hover,
+.play-pause:active {
+    animation: bounce 0.3s ease-out;
+    box-shadow: 0px 8px 15px rgba(140, 123, 255, 0.5);
+}
+
+.play-pause::before {
+    position: absolute;
+    content: "";
+    height: 50px;
+    width: 50px;
+    border-radius: inherit;
+    background: linear-gradient(var(--pink) 0%, var(--violet) 100%);
+}
+
+.play-pause i {
+    height: 50px;
+    width: 50px;
+    line-height: 50px;
+    text-align: center;
+    background: inherit;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: absolute;
+    font-size: 35px;
+}
+
+
+/* ------------------ MUSIC LIST (SLIDE) ------------------ */
+
+.music-list-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    bottom: -100%;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 5;
+    display: flex;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border-radius: 20px;
+}
+
+.music-list-container.show {
+    bottom: 0;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.genre-list,
+.music-list {
+    min-width: 100%;
+    height: 100%;
+    padding: 20px 30px;
+    background: var(--white);
+    box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.4s ease-out;
+}
+
+.music-list-container .music-list {
+    transform: translateX(100%);
+}
+
+.music-list-container .genre-list {
+    transform: translateX(0%);
+}
+
+.music-list-container.slide-to-songs .genre-list {
+    transform: translateX(-100%);
+}
+
+.music-list-container.slide-to-songs .music-list {
+    transform: translateX(-100%);
+}
+
+.header .row {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--lightblack);
+    text-shadow: 1px 1px 1px var(--shadow-color);
+}
+
+.header .row i {
+    font-size: 28px;
+}
+
+.music-list ul,
+.genre-list ul {
+    max-height: 300px;
+}
+
+.music-list ul li,
+.genre-list ul li {
+    padding: 12px 10px;
+    margin-bottom: 8px;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+}
+
+.music-list ul li:hover:not(.playing),
+.genre-list ul li:hover:not(.playing) {
+    animation: pop 0.2s forwards;
+    background: rgba(140, 123, 255, 0.1);
+}
+
+.music-list ul li .row span,
+.genre-list ul li span {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+ul li.playing {
+    color: var(--violet);
+    background: rgba(140, 123, 255, 0.15);
+    font-weight: 700;
+    box-shadow: inset 0 0 5px rgba(140, 123, 255, 0.3);
+}
+
+
+/* ------------------ MUSIC LIST (SLIDE) ------------------ */
+
+
+/* Đảm bảo header của cả hai list panel đều là Flex container */
+
+
+/* và có khoảng cách giữa các phần tử (logo/tiêu đề) và nút đóng (X) */
+
+.genre-list .header,
+.music-list .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 15px;
+}
+
+
+/* Đảm bảo icon đóng không có lề thừa và sát mép phải (theo padding của list) */
+
+#close-genre,
+#close-music-list {
+    font-size: 28px;
+    margin: 0;
+}
+
+
+/* Đảm bảo lề trong (padding) của list panel được áp dụng */
+
+.genre-list,
+.music-list {
+    padding: 20px 30px;
+}
+
+
+/* ------------------ FOOTER ------------------ */
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0 10px 0 0;
+    z-index: 1000;
+}
+
+.footer a {
+    color: #ffcc00;
+    text-decoration: none;
+    font-weight: 700;
+    text-shadow: 1px 1px 1px black;
+}
+
+
+/* --- KEYFRAMES MỚI CHO VIỀN AVATAR (GIỮ NGUYÊN) --- */
+
+@keyframes avatar-active-glow {
+    0% {
+        box-shadow: 0 0 0 3px rgba(140, 123, 255, 0.4), 0 0 10px rgba(140, 123, 255, 0.8);
+    }
+    50% {
+        box-shadow: 0 0 0 5px rgba(255, 110, 135, 0.6), 0 0 15px rgba(255, 110, 135, 1);
+    }
+    100% {
+        box-shadow: 0 0 0 3px rgba(140, 123, 255, 0.4), 0 0 10px rgba(140, 123, 255, 0.8);
+    }
+}
+
+
+/* =================================================== */
+
+
+/* ANIMATIONS                      */
+
+
+/* =================================================== */
+
+
+/* Hiệu ứng Nảy khi click (cho các nút) */
+
+@keyframes clickBounce {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.9);
+    }
+    /* Hơi co lại khi click */
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+/* Hiệu ứng Nhấn vào và Sáng lên (cho các mục list) */
+
+@keyframes listItemClick {
+    0% {
+        transform: translateY(0) scale(1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    50% {
+        transform: translateY(2px) scale(0.98);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    /* Hơi lún xuống */
+    100% {
+        transform: translateY(0) scale(1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+}
+
+
+/* Hiệu ứng Phát sáng liên tục (cho nút và progress bar) */
+
+@keyframes glowingEffect {
+    0% {
+        box-shadow: 0 0 5px rgba(255, 110, 135, 0.5), 0 0 10px rgba(140, 123, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 8px rgba(255, 110, 135, 0.8), 0 0 15px rgba(140, 123, 255, 0.5);
+    }
+    100% {
+        box-shadow: 0 0 5px rgba(255, 110, 135, 0.5), 0 0 10px rgba(140, 123, 255, 0.3);
+    }
+}
+
+
+/* Hiệu ứng Phát sáng cho nút PLAY/PAUSE */
+
+@keyframes playPauseGlowing {
+    0% {
+        box-shadow: 0px 5px 10px rgba(255, 110, 135, 0.4);
+    }
+    50% {
+        box-shadow: 0px 8px 15px rgba(140, 123, 255, 0.8);
+    }
+    100% {
+        box-shadow: 0px 5px 10px rgba(255, 110, 135, 0.4);
+    }
+}
