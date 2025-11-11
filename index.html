@@ -12,7 +12,243 @@
     <meta property="og:title" content="VuKhu" />
     <meta property="og:description" content="Nghe Nhạc Bằng Mũi" />
 
+    <title>VuDinhKhu|Music</title><!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="icon" href="./images/avt2.jpg" type="image/x-icon" />
+    <link rel="shortcut icon" href="./images/avt2.jpg" type="image/x-icon" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="VuKhu" />
+    <meta property="og:description" content="Nghe Nhạc Bằng Mũi" />
+
     <title>VuDinhKhu|Music</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <style>
+        /* Additional mobile-first styles */
+        
+        .wrapper {
+            max-width: 95%;
+            margin: 10px auto;
+            padding: 15px;
+            transform: scale(0.95);
+            transform-origin: top center;
+        }
+        
+        .top-bar {
+            padding: 8px 12px;
+            margin-bottom: 15px;
+        }
+        
+        .avatar-icon {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .avatar-icon img {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .time-display {
+            font-size: 12px;
+            padding: 4px 8px;
+        }
+        
+        .img-area {
+            height: 200px;
+            margin: 10px 0;
+        }
+        
+        .song-details {
+            margin: 12px 0;
+        }
+        
+        .song-details .name {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+        
+        .song-details .artist {
+            font-size: 12px;
+        }
+        
+        .progress-area {
+            margin: 10px 0;
+        }
+        
+        .song-timer {
+            font-size: 11px;
+            margin-top: 5px;
+        }
+        
+        .controls {
+            margin: 15px 0;
+            gap: 8px;
+        }
+        
+        .controls i {
+            font-size: 20px;
+            padding: 8px;
+        }
+        
+        .play-pause {
+            width: 45px;
+            height: 45px;
+        }
+        
+        .play-pause i {
+            font-size: 24px;
+        }
+        
+        .music-list-container {
+            max-height: 60vh;
+        }
+        
+        .footer {
+            font-size: 12px;
+            padding: 10px;
+        }
+        /* Responsive adjustments */
+        
+        @media (max-width: 320px) {
+            .wrapper {
+                transform: scale(0.9);
+                margin: 5px auto;
+                padding: 10px;
+            }
+            .img-area {
+                height: 180px;
+            }
+            .controls {
+                gap: 5px;
+            }
+            .controls i {
+                font-size: 18px;
+                padding: 6px;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .wrapper {
+                max-width: 400px;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- keep snow but disabled until user interaction to reduce work on load -->
+    <div class="snow-container" id="snow-container" aria-hidden="true"></div>
+
+    <div class="wrapper">
+        <div class="top-bar">
+            <div class="avatar-icon">
+                <img src="./images/avt2.jpg" alt="Avatar">
+            </div>
+            <span id="vietnam-time" class="time-display">00:00:00</span>
+
+            <a href="https://t.me/ItsMeemo123" target="_blank" id="telegram-link" class="icon-link">
+                <i class="material-icons" title="Liên hệ Telegram">send</i>
+            </a>
+        </div>
+
+        <div class="img-area">
+            <!-- lazy load main image to reduce initial load -->
+            <img src="./images/placeholder.png" data-src="" alt="Music Card Image" loading="lazy" id="main-image">
+        </div>
+        <div class="song-details">
+            <p class="name"></p>
+            <p class="artist"></p>
+        </div>
+
+        <div class="progress-area">
+            <div class="progress-bar">
+                <!-- avoid full preloading of audio -->
+                <audio id="main-audio" src="" preload="metadata"></audio>
+            </div>
+            <div class="song-timer">
+                <span class="current-time">0:00</span>
+                <span class="max-duration">0:00</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <i id="repeat-plist" class="material-icons" title="Playlist looped">repeat</i>
+            <i id="prev" class="material-icons">skip_previous</i>
+            <div class="play-pause">
+                <i class="material-icons play">play_arrow</i>
+            </div>
+            <i id="next" class="material-icons">skip_next</i>
+            <i id="more-music" class="material-icons">queue_music</i>
+        </div>
+
+        <div class="music-list-container">
+            <div class="genre-list">
+                <div class="header">
+                    <div class="row">
+                        <i class="list material-icons">widgets</i>
+                        <span>Chọn Thể Loại Nhạc 🎶</span>
+                    </div>
+                    <i id="close-genre" class="material-icons">close</i>
+                </div>
+                <ul id="genre-ul"></ul>
+            </div>
+
+            <div class="music-list">
+                <div class="header">
+                    <div class="row">
+                        <i id="back-to-genre" class="material-icons">arrow_back</i>
+                        <span id="current-genre-name">Music list</span>
+                    </div>
+                    <i id="close-music-list" class="material-icons">close</i>
+                </div>
+                <ul id="music-ul"></ul>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        Designed by <a href="https://vukhuprofile.netlify.app/" target="_blank">VuKhu</a>
+    </footer>
+
+    <!-- defer scripts so HTML paints first -->
+    <script>
+        (function() {
+            function enableAfterInteraction() {
+                var snow = document.getElementById('snow-container');
+                if (snow) snow.classList.add('enabled');
+
+                var img = document.getElementById('main-image');
+                if (img && img.dataset.src && !img.src.includes('placeholder')) {
+                    img.src = img.dataset.src;
+                }
+
+                window.removeEventListener('click', enableAfterInteraction);
+                window.removeEventListener('keydown', enableAfterInteraction);
+            }
+            window.addEventListener('click', enableAfterInteraction, {
+                once: true
+            });
+            window.addEventListener('keydown', enableAfterInteraction, {
+                once: true
+            });
+        })();
+    </script>
+
+    <script defer src="js/music-list.js"></script>
+    <script defer src="js/script.js"></script>
+    <script defer src="js/snow-effect.js"></script>
+</body>
+
+</html>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
